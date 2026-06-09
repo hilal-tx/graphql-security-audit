@@ -6,3 +6,19 @@ GraphQL'de yetkilendirme (authorization) geleneksel REST API'lerden daha karmaş
 Eğer geliştiriciler sadece üst seviye (örneğin ana `Query` nesnesi) için yetki kontrolü yapar, ancak iç içe geçmiş (nested) ilişkisel alanlar için (Field-Level) yetki kontrolünü unuturlarsa, saldırganlar grafik üzerindeki ilişkileri takip ederek normalde erişmemeleri gereken verilere ulaşabilirler.
 
 Örneğin, bir API'de sıradan bir kullanıcının kendi profilini görüntülemesine izin veriliyor olabilir. Fakat aynı API'deki `User` modelinde yer alan `secrets` alanı (veya dolaylı yoldan diğer kullanıcılara bağlanan referanslar) özel bir yetki kontrolüne tabi tutulmazsa, saldırgan kendi erişebildiği bir nesne üzerinden yola çıkarak sistemdeki diğer tüm kullanıcıların gizli verilerine erişim sağlayabilir (BOLA/IDOR).
+
+## Proof of Concept (PoC) Sorgusu
+Aşağıdaki saldırı sorgusu, saldırganın tüm kullanıcılar (`users`) üzerinden yola çıkarak normalde başkalarına ait olan gizli bilgileri (`secrets`) hiçbir yetki kontrolüne takılmadan çektiği senaryoyu gösterir.
+
+```graphql
+query FieldLevelBypassAttack {
+  users {
+    id
+    name
+    secrets {
+      id
+      content
+    }
+  }
+}
+```
