@@ -2,6 +2,7 @@ const express = require('express');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const { ApolloServerPluginLandingPageLocalDefault } = require('@apollo/server/plugin/landingPage/default');
+const { ApolloArmor } = require('@escape.tech/graphql-armor');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
