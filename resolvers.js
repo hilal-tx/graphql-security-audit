@@ -17,6 +17,10 @@ const secrets = [
 // Resolvers
 const resolvers = {
   Query: {
+    /**
+     * @description Tüm kullanıcıların listesini döner.
+     * @returns {Array<Object>} Kullanıcı nesneleri dizisi
+     */
     users: () => {
       try {
         return users;
@@ -24,6 +28,14 @@ const resolvers = {
         throw new Error('Kullanıcı listesi alınırken bir hata oluştu.');
       }
     },
+    
+    /**
+     * @description Belirtilen ID'ye sahip tek bir kullanıcıyı getirir.
+     * @param {Object} _ Parent parametresi (kullanılmaz)
+     * @param {Object} args GraphQL argümanları
+     * @param {string} args.id Kullanıcı ID'si
+     * @returns {Object} Bulunan kullanıcı nesnesi
+     */
     user: (_, { id }) => {
       try {
         const user = users.find(u => u.id === id);
@@ -33,6 +45,11 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
+
+    /**
+     * @description Sistemdeki tüm gönderileri (posts) listeler.
+     * @returns {Array<Object>} Gönderi nesneleri dizisi
+     */
     posts: () => {
       try {
         return posts;
@@ -40,6 +57,14 @@ const resolvers = {
         throw new Error('Gönderiler alınırken bir hata oluştu.');
       }
     },
+
+    /**
+     * @description Belirtilen ID'ye sahip gizli veriyi (secret) getirir.
+     * @param {Object} _ Parent parametresi (kullanılmaz)
+     * @param {Object} args GraphQL argümanları
+     * @param {string} args.id Gizli veri ID'si
+     * @returns {Object} Bulunan gizli veri nesnesi
+     */
     secret: (_, { id }) => {
       try {
         const secret = secrets.find(s => s.id === id);
@@ -51,6 +76,11 @@ const resolvers = {
     },
   },
   User: {
+    /**
+     * @description Bir kullanıcının yazdığı tüm gönderileri (posts) getirir.
+     * @param {Object} parent Üst GraphQL düğümü (User)
+     * @returns {Array<Object>} Bu kullanıcıya ait gönderiler dizisi
+     */
     posts: (parent) => {
       try {
         return posts.filter(p => p.authorId === parent.id);
@@ -58,6 +88,12 @@ const resolvers = {
         throw new Error('Kullanıcı gönderileri getirilemedi.');
       }
     },
+
+    /**
+     * @description Bir kullanıcının kendisine ait tüm gizli verilerini (secrets) getirir.
+     * @param {Object} parent Üst GraphQL düğümü (User)
+     * @returns {Array<Object>} Bu kullanıcıya ait gizli veriler dizisi
+     */
     secrets: (parent) => {
       try {
         return secrets.filter(s => s.userId === parent.id);
@@ -67,6 +103,11 @@ const resolvers = {
     },
   },
   Post: {
+    /**
+     * @description Bu gönderiyi yazan yazar (User) bilgisini getirir.
+     * @param {Object} parent Üst GraphQL düğümü (Post)
+     * @returns {Object} Yazar (User) nesnesi
+     */
     author: (parent) => {
       try {
         const author = users.find(u => u.id === parent.authorId);
