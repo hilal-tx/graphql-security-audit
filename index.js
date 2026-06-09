@@ -81,8 +81,8 @@ async function startServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    // VULNERABILITY 4: Introspection explicitly enabled
-    introspection: true,
+    // VULNERABILITY 4 FIXED: Introspection disabled (Default is false in production anyway)
+    introspection: false,
     
     // VULNERABILITY 5: Batching enabled
     allowBatchedHttpRequests: true,
