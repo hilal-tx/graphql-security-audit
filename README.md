@@ -20,3 +20,4 @@ Projede aşağıdaki güvenlik açıkları test edilmiştir:
 
 1. **Introspection Zafiyeti:** API'nin şeması dışarıya açık bırakılmış ve bu şema çekilerek **GraphQL Voyager** aracı ile tüm veritabanı haritası çıkarılmıştır.
 2. **Query Depth (DoS) Saldırısı:** Sunucunun kaynaklarını tüketmek amacıyla, iç içe geçmiş çok derin GraphQL sorguları (nested queries) gönderilmiştir.
+3. **Batching Attack:** **Burp Suite** kullanılarak tek bir HTTP isteğinin içine birden fazla sorgu gizlenmiş ve böylece sistemin hız sınırları (rate-limit) atlatılmaya çalışılmıştır.
