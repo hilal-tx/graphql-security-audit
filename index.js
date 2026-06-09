@@ -58,7 +58,11 @@ async function startServer() {
   }));
 
   app.listen(PORT, () => {
-    console.log(\`🚀 Vulnerable GraphQL API ready at http://localhost:\${PORT}/graphql\`);
+    console.log(`=================================================`);
+    console.log(`🚀 GraphQL Server is running!`);
+    console.log(`🌐 Endpoint: http://localhost:${PORT}/graphql`);
+    console.log(`🛡️  GraphQL Armor: ENABLED (Max Depth: 5, Batching: OFF)`);
+    console.log(`=================================================`);
   });
 }
 
